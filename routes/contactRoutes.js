@@ -96,7 +96,6 @@ import express from "express";
 import { Resend } from "resend";
 
 const router = express.Router();
-
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 router.post("/send-query", async (req, res) => {
@@ -111,23 +110,19 @@ router.post("/send-query", async (req, res) => {
 
   try {
     await resend.emails.send({
-      from: `Swasthya Support <${process.env.FROM_EMAIL}>`,
+      from: "Website Support <onboarding@resend.dev>", // SAME as EMAIL_USER
       to: ["swasthya.medical.akansh@gmail.com"],
+      replyTo: email, // ⭐ improvement over nodemailer
       subject: "New Contact Us Query",
       html: `
         <h3>New Query Received</h3>
         <p><b>Name:</b> ${name}</p>
         <p><b>Email:</b> ${email}</p>
-        <p><b>Message:</b></p>
-        <p>${message}</p>
+        <p><b>Message:</b><br/>${message}</p>
       `,
     });
 
-    res.status(200).json({
-      success: true,
-      message: "Query sent successfully",
-    });
-
+    res.status(200).json({ success: true });
   } catch (error) {
     console.error("Resend error:", error);
     res.status(500).json({
@@ -138,3 +133,5 @@ router.post("/send-query", async (req, res) => {
 });
 
 export default router;
+;
+
