@@ -92,11 +92,57 @@
 
 // export default router;
 
+// import express from "express";
+// import { Resend } from "resend";
+
+// const router = express.Router();
+// const resend = new Resend(process.env.RESEND_API_KEY);
+
+// router.post("/send-query", async (req, res) => {
+//   const { name, email, message } = req.body;
+
+//   if (!name || !email || !message) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "All fields are required",
+//     });
+//   }
+
+//   try {
+//     await resend.emails.send({
+//       from: "Website Support <onboarding@resend.dev>", // SAME as EMAIL_USER
+//       to: ["swasthya.medical.akansh@gmail.com"],
+//       replyTo: email, // ⭐ improvement over nodemailer
+//       subject: "New Contact Us Query",
+//       html: `
+//         <h3>New Query Received</h3>
+//         <p><b>Name:</b> ${name}</p>
+//         <p><b>Email:</b> ${email}</p>
+//         <p><b>Message:</b><br/>${message}</p>
+//       `,
+//     });
+
+//     res.status(200).json({ success: true });
+//   } catch (error) {
+//     console.error("Resend error:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to send email",
+//     });
+//   }
+// });
+
+// export default router;
+// ;
+
+
+
 import express from "express";
 import { Resend } from "resend";
 
 const router = express.Router();
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+// ❌ Removed: const resend = new Resend(process.env.RESEND_API_KEY);
 
 router.post("/send-query", async (req, res) => {
   const { name, email, message } = req.body;
@@ -109,10 +155,12 @@ router.post("/send-query", async (req, res) => {
   }
 
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY); // ✅ Moved here
+
     await resend.emails.send({
-      from: "Website Support <onboarding@resend.dev>", // SAME as EMAIL_USER
+      from: "Website Support <onboarding@resend.dev>",
       to: ["swasthya.medical.akansh@gmail.com"],
-      replyTo: email, // ⭐ improvement over nodemailer
+      replyTo: email,
       subject: "New Contact Us Query",
       html: `
         <h3>New Query Received</h3>
@@ -133,6 +181,4 @@ router.post("/send-query", async (req, res) => {
 });
 
 export default router;
-;
-
 
