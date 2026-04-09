@@ -53,6 +53,7 @@
 
 import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 import mongoose from "mongoose";
 
@@ -61,8 +62,6 @@ import diseaseRoutes from "./routes/diseaseRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import visitorRoutes from "./routes/visitorRoutes.js";
 import medicalFactRoutes from "./routes/medicalFactRoutes.js";
-
-dotenv.config();
 
 const app = express();
 
